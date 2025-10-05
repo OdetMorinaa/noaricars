@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit {{ filename }}</title>
+</head>
+<body>
+<h1>Edit Dates for {{ filename }}</h1>
+<form method="post">
+    <label>Last Reserved (dd.mm.yyyy):</label>
+    <input type="text" name="last_reserved" value="{{ car_info.last_reserved.strftime('%d.%m.%Y') if car_info.last_reserved else '' }}"><br><br>
+
+    <label>Available Again (dd.mm.yyyy):</label>
+    <input type="text" name="available_again" value="{{ car_info.available_again.strftime('%d.%m.%Y') if car_info.available_again else '' }}"><br><br>
+
+    <button type="submit">Save</button>
+</form>
+<p><a href="{{ url_for('home') }}">Back to Home</a></p>
+</body>
+</html>
