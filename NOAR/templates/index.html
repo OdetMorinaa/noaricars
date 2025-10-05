@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Car Availability</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 90%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background-color: #f2f2f2; }
+    .available { background-color: #c8e6c9; }
+    .unavailable { background-color: #ffcdd2; }
+    .error { background-color: #ffeb3b; }
+    a { text-decoration: none; color: #1976d2; }
+</style>
+</head>
+<body>
+<h1>Car Availability</h1>
+<p><a href="{{ url_for('manual_refresh') }}">Refresh Now</a></p>
+<table>
+    <tr>
+        <th>File</th>
+        <th>Last Reserved</th>
+        <th>Available Again</th>
+        <th>Status</th>
+        <th>Edit</th>
+    </tr>
+    {% for file, info in car_status.items() %}
+    <tr class="{% if info.get('error') %}error{% elif info.available %}available{% else %}unavailable{% endif %}">
+        <td>{{ file }}</td>
+        <td>{{ info.get('last_reserved').strftime('%d.%m.%Y') if info.get('last_reserved') else '-' }}</td>
+        <td>{{ info.get('available_again').strftime('%d.%m.%Y') if info.get('available_again') else '-' }}</td>
+        <td>
+            {% if info.get('error') %}
+                Error: {{ info.error }}
+            {% else %}
+                {% if info.available %}Available{% else %}Unavailable{% endif %}
+            {% endif %}
+        </td>
+        <td><a href="{{ url_for('edit_file', filename=file) }}">Edit</a></td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
