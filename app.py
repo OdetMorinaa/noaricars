@@ -6,9 +6,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 
-# Fixed folder containing Excel files
-FOLDER_PATH = r"C:\Users\anexr\Desktop\RENT A CAR NOARI"
-os.makedirs(FOLDER_PATH, exist_ok=True)
+# Folder containing Excel files inside the project
+FOLDER_PATH = os.path.join(os.path.dirname(__file__), "Contracts")
+os.makedirs(FOLDER_PATH, exist_ok=True)  # create if not exists
 
 # Global dictionary to store car status
 car_status = {}
@@ -101,4 +101,5 @@ def edit_file(filename):
 
 if __name__ == "__main__":
     check_car_availability()
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    # Use simple app.run() for local testing; in production Gunicorn will handle host/port
+    app.run()
